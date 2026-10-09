@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kameas Planetários e Sigilos</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h2>Construtor de Sigilos</h2>
+            <div class="mode_tabs" role="tablist" aria-label="Tipo de sigilo">
+                <button id="tabPlanetario" class="mode_tab active" type="button" role="tab" aria-selected="true" aria-controls="workspace">Sigilos planetários</button>
+                <button id="tabCaos" class="mode_tab" type="button" role="tab" aria-selected="false" aria-controls="workspace">Sigilos de magia do caos</button>
+            </div>
+            <div class="workspace_layout" id="workspace">
+                <section class="controls_column" aria-label="Explicação e configurações do sigilo">
+                    <select id="planetaSelecionado" class="planetary_only">
+                        <option value="saturno">Saturno (3x3)</option>
+                        <option value="jupiter">Júpiter (4x4)</option>
+                        <option value="marte">Marte (5x5)</option>
+                        <option value="sol">Sol (6x6)</option>
+                        <option value="venus">Vênus (7x7)</option>
+                        <option value="mercurio">Mercúrio (8x8)</option>
+                        <option value="lua">Lua (9x9)</option>
+                    </select>
+                    <select id="sistemaNumerico" class="planetary_only">
+                        <option value="pitagorica">Cifra Pitagórica (A-Z → 1-9)</option>
+                        <option value="gematria">Gematria Hebraica + Aiq Beker</option>
+                    </select>
+                    <section class="help_panel planetary_only" id="ajudaSistema" aria-live="polite" aria-atomic="true">
+                        <h3 id="ajudaSistemaTitulo">Cifra Pitagórica</h3>
+                        <div id="ajudaSistemaConteudo"></div>
+                        <h4>Como o sigilo é traçado</h4>
+                        <p>O traçado começa com um pequeno anel na primeira letra aproveitada. Em seguida, uma linha contínua percorre as casas correspondentes, na ordem da sequência. Quando uma casa se repete, arcos no eixo do percurso indicam essa repetição.</p>
+                        <p>A terminação pode ser uma barra transversal perpendicular ao último segmento (T) ou um pequeno laço, conforme a opção selecionada.</p>
+                    </section>
+                    <section class="help_panel chaos_only" id="ajudaCaos" hidden>
+                        <h3>Roda alfabética da magia do caos</h3>
+                        <p>As letras A–Z são distribuídas ao redor de uma roda. A frase é romanizada, as vogais são removidas e cada consoante aparece somente uma vez.</p>
+                        <p>Não há conversão numérica. O traço conecta diretamente as letras restantes, na ordem, começando com um anel e terminando exclusivamente em T.</p>
+                    </section>
+                    <input type="text" id="textoSigilo" placeholder="Digite uma frase de intenção">
+                    <small id="regraReducao">Vogais e consoantes repetidas são removidas; palavras de uma letra são ignoradas. Todas as consoantes inéditas de cada palavra são mantidas.</small>
+                    <select id="terminacaoSigilo">
+                        <option value="t">Terminação em T (Barra)</option>
+                        <option value="laco">Terminação em Laço</option>
+                    </select>
+                    <section class="analysis_panel" id="analiseSigilo" aria-live="polite">
+                        <h3>Como o sigilo foi formado</h3>
+                        <p class="analysis_empty">Digite uma frase para ver as letras aproveitadas, a redução e a conversão Pitagórica.</p>
+                    </section>
+                    <small class="analysis_controls_note">Personalização: quando uma palavra seria apagada por completo por conter apenas consoantes já usadas, clique nela para recuperar até 3 consoantes como fragmento. Vogais e palavras de uma letra não podem ser escolhidas. No kamea, arraste uma passagem repetida para reposicioná-la dentro do quadrado; a primeira passagem fica fixa. Use os controles abaixo do kamea para espelhar ou girar os arcos de repetição, sem alterar seu tamanho.</small>
+                    <p class="analysis_status" id="statusPersonalizacao" aria-live="polite"></p>
+                </section>
+                <section class="kamea_column" aria-label="Kamea e controles do desenho">
+                    <div class="grid_wrapper">
+                        <div class="grid_kameas" id="grid_kameas"></div>
+                        <div class="chaos_wheel" id="chaosWheel" hidden aria-label="Roda alfabética de A a Z"></div>
+                        <canvas id="sigilCanvas"></canvas>
+                    </div>
+                    <fieldset class="repeat_arc_controls">
+                        <legend>Editar arcos de repetição</legend>
+                        <p>As transformações se aplicam a todos os arcos e preservam o tamanho.</p>
+                        <div class="repeat_arc_buttons">
+                            <button id="btnEspelharVertical" type="button" aria-pressed="false">Espelhar verticalmente</button>
+                            <button id="btnEspelharHorizontal" type="button" aria-pressed="false">Espelhar horizontalmente</button>
+                            <button id="btnRotacionarArco" type="button" title="Girar 90 graus no sentido horário">Girar 90°</button>
+                            <output id="rotacaoArcoValor" aria-live="polite">Rotação: 0°</output>
+                            <button id="btnRedefinirArco" type="button">Redefinir</button>
+                        </div>
+                    </fieldset>
+                    <div class="export_buttons">
+                        <button id="btnSalvarComKamea" type="button">Salvar imagem com kamea/roda</button>
+                        <button id="btnSalvarLinhas" type="button">Salvar imagem (somente linhas)</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <script src="sigil.js"></script>
+    </body>
+</html>
